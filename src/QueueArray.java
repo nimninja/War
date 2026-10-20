@@ -36,6 +36,10 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
 
     public void enqueue(Item item) {
 
+        if (size == items.length - 1) {
+            resize(items.length*2);
+        }
+
         items[tail++] = item;
 
         if (tail == items.length) {
@@ -50,11 +54,15 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
             throw new RuntimeException("Tried to dequeue an empty queue");
         }
         else {
+
             Item itemToReturn = items[head];
             items[head++] = null; //prevents loitering
             size--;
             if (head == items.length) {
                 head = 0;
+            }
+            if (size == items.length / 4) {
+                resize(items.length/2);
             }
 
 
@@ -63,7 +71,13 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
     }
 
     private void resize(int capacity) {
-        //TODO : Implement the resize method and use it in the correct spots in QueueArray
+         Item[] newArray = (Item[]) new Object[capacity];
+         for (int i = 0; i < size; i++) {
+             newArray[i] = items[(i+head) % items.length];
+         }
+         items = newArray;
+         head = 0;
+         tail = size;
     }
 
     public Iterator<Item> iterator() {
@@ -89,7 +103,8 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
              */
             public boolean hasNext() {
                 //TODO Implement the hasNext() method
-                return true;
+
+                return next()!=null;
             }
 
             /**
@@ -102,8 +117,14 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
             public Item next() {
                 //TODO Implement the next() method
                 Item item = items[0];
-                return item;
-
+                Item ret = items[count];
+                if (hasNext()) {
+                    item = items[pos++];
+                    count++;
+                } else {
+                    size++;
+                }
+                return ret;
             }
         });
     }
