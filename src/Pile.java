@@ -4,12 +4,19 @@ public class Pile extends QueueArray<Card> {
 
     public Pile(String cards) {
 
+
         // Allows for the construction of a pile of cards from a string
         //
         // Example:
         //   Pile pile = new Pile("As 2s 3s Jh Qh Kh 4d 5d 6d 7c 8c 9c");
 
         // TODO: implement pile constructor
+        Scanner reader = new Scanner(cards);
+        while (reader.hasNext()) {
+            String ca = reader.next();
+            this.enqueue(new Card(ca.charAt(0), ca.charAt(1)));
+        }
+
     }
 
     public String toString() {
@@ -23,6 +30,18 @@ public class Pile extends QueueArray<Card> {
         //   Kc  Td  Jc  Th  9s  Kd
         // TODO: implement toString. Use a  'for (Card card : this) {}' loop to print them
         String output = "";
+        int count = 1;
+        int s = this.size();
+        for (int i = 0; i < s; i++) {
+            if (count > 10) {
+                output += System.lineSeparator() + this.dequeue() + "  ";
+                count = 0;
+            } else {
+                output += this.dequeue() + "  ";
+            }
+            count++;
+        }
+
 
         return output;
 
@@ -37,5 +56,6 @@ public class Pile extends QueueArray<Card> {
      */
     public void shuffle() {
         // TODO: implement the riffle shuffle
+
     }
 }
