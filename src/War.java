@@ -34,6 +34,21 @@ public class War {
         System.out.println("                                        *** WAR! ***" + System.lineSeparator());
     }
 
+    public static boolean Comparer() {
+        Card p1 = pile1.dequeue();
+        Card p2 = pile2.dequeue();
+        if (p1.compareTo(p2) > 0) {
+            pile1.enqueue(p1);
+            pile1.enqueue(p2);
+            return false;
+        } else if (p1.compareTo(p2) < 0) {
+            pile2.enqueue(p2);
+            pile2.enqueue(p1);
+            return false;
+        }
+        return true;
+    }
+
     // ADD ADDITIONAL METHODS HERE, IF DESIRED...
 
     public static void main(String[] args) {
@@ -58,6 +73,12 @@ public class War {
         numTurns = 1;
 
         // TODO: ADD CODE HERE TO COMPLETE THIS METHOD...
+        while (!pile1.isEmpty() || !pile2.isEmpty()) {
+            if (numTurns > 500) {break;}
+            boolean equal = Comparer();
+            if (equal) {
 
+            }
+        }
     }
 }
